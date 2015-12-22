@@ -18,7 +18,7 @@ import java.net.Socket;
  * <p/>
  * helper methods.
  */
-public class MessageIntentService extends IntentService {
+public class P2PIntentService extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_LISTEN = "cn.yaoht.onlinechat.action.LISTEN";
     private static final String ACTION_LOGIN = "cn.yaoht.onlinechat.action.LOGIN";
@@ -29,18 +29,18 @@ public class MessageIntentService extends IntentService {
     private static final String EXTRA_PARAM_USERNAME = "cn.yaoht.onlinechat.extra.USERNAME";
     private static final String EXTRA_PARAM_PASSWORD = "cn.yaoht.onlinechat.extra.PASSWORD";
 
-    public MessageIntentService() {
-        super("MessageIntentService");
+    public P2PIntentService() {
+        super("P2PIntentService");
     }
 
     public static void startActionListen(Context context) {
-        Intent intent = new Intent(context, MessageIntentService.class);
+        Intent intent = new Intent(context, P2PIntentService.class);
         intent.setAction(ACTION_LISTEN);
         context.startService(intent);
     }
 
     public static void startActionLogin(Context context, String server_ip, int server_port, String username, String password) {
-        Intent intent = new Intent(context, MessageIntentService.class);
+        Intent intent = new Intent(context, P2PIntentService.class);
         intent.setAction(ACTION_LOGIN);
         intent.putExtra(EXTRA_PARAM_SERVER_IP, server_ip);
         intent.putExtra(EXTRA_PARAM_SERVER_PORT, server_port);

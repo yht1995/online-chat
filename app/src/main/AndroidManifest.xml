@@ -19,7 +19,7 @@
         </activity>
 
         <service
-            android:name=".MessageIntentService"
+            android:name=".P2PIntentService"
             android:exported="false" />
     </application>
 

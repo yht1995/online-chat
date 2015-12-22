@@ -9,17 +9,17 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Friend extends RealmObject {
     @PrimaryKey
-    private long user_id;
+    private String user_id;
 
     private String ip_address;
     private String nick_name;
     private Boolean on_line;
 
-    public long getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

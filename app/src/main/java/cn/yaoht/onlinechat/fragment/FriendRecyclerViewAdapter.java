@@ -50,11 +50,13 @@ public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Fri
         final Friend friend = realmResults.get(pos);
 
         viewHolder.name.setText(friend.getUser_id());
-        viewHolder.description.setText(friend.getIp_address());
+
 
         if (friend.getOn_line()) {
+            viewHolder.description.setText(friend.getIp_address());
             viewHolder.avatar.setImageResource(R.drawable.ic_person_24dp);
         } else {
+            viewHolder.description.setText(R.string.outline);
             viewHolder.avatar.setImageResource(R.drawable.ic_person_outline_24dp);
         }
 

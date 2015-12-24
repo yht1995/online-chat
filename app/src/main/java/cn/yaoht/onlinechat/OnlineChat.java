@@ -19,5 +19,6 @@ public class OnlineChat extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.deleteRealm(realmConfiguration); // Clean slate
         Realm.setDefaultConfiguration(realmConfiguration); // Make this Realm the default
+        Realm realm = Realm.getDefaultInstance();
     }
 }

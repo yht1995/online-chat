@@ -15,7 +15,6 @@ public class OnlineChat extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // Configure Realm for the application
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.deleteRealm(realmConfiguration); // Clean slate

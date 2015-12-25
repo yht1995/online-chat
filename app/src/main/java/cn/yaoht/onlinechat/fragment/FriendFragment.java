@@ -21,7 +21,7 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FriendFragment extends Fragment implements RealmRecyclerView.OnRefreshListener {
+public class FriendFragment extends Fragment {
 
     private RealmRecyclerView realmRecyclerView;
     private FriendRecyclerViewAdapter friendRecyclerViewAdapter;
@@ -60,17 +60,12 @@ public class FriendFragment extends Fragment implements RealmRecyclerView.OnRefr
         friends = realm.where(Friend.class).findAll();
         friendRecyclerViewAdapter = new FriendRecyclerViewAdapter(getContext(), friends, true, true);
         realmRecyclerView.setAdapter(friendRecyclerViewAdapter);
-        realmRecyclerView.setOnRefreshListener(this);
+        realmRecyclerView.setOnRefreshListener(new OnFriendsFragmentRefreshListener());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RefreshFriendOnlineState();
-    }
-
-    @Override
-    public void onRefresh() {
         RefreshFriendOnlineState();
     }
 
@@ -92,7 +87,7 @@ public class FriendFragment extends Fragment implements RealmRecyclerView.OnRefr
                     }
                 }
             }
-        }, new Realm.Transaction.Callback(){
+        }, new Realm.Transaction.Callback() {
             @Override
             public void onSuccess() {
                 realmRecyclerView.setRefreshing(false);
@@ -103,5 +98,13 @@ public class FriendFragment extends Fragment implements RealmRecyclerView.OnRefr
                 realmRecyclerView.setRefreshing(false);
             }
         });
+    }
+
+    private class OnFriendsFragmentRefreshListener implements RealmRecyclerView.OnRefreshListener {
+
+        @Override
+        public void onRefresh() {
+            RefreshFriendOnlineState();
+        }
     }
 }

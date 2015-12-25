@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.model.Friend;
@@ -19,8 +20,6 @@ import io.realm.RealmViewHolder;
  */
 public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Friend,
         FriendRecyclerViewAdapter.ViewHolder> {
-
-
     public FriendRecyclerViewAdapter(Context context, RealmResults<Friend> realmResults, boolean automaticUpdate, boolean animateResults) {
         super(context, realmResults, automaticUpdate, animateResults);
     }
@@ -50,7 +49,7 @@ public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Fri
         final Friend friend = realmResults.get(pos);
 
         viewHolder.name.setText(friend.getUser_id());
-
+        viewHolder.itemView.setOnClickListener(new OnItemClickListener(pos));
 
         if (friend.getOn_line()) {
             viewHolder.description.setText(friend.getIp_address());
@@ -60,5 +59,18 @@ public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Fri
             viewHolder.avatar.setImageResource(R.drawable.ic_person_outline_24dp);
         }
 
+    }
+
+    private class OnItemClickListener implements View.OnClickListener {
+        private Friend friend;
+
+        OnItemClickListener(int position) {
+            this.friend = realmResults.get(position);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(view.getContext(), "OnClick :" + friend.getUser_id(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

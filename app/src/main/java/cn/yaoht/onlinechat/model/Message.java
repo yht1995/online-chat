@@ -2,38 +2,69 @@ package cn.yaoht.onlinechat.model;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
  * Created by yaoht on 2015/12/4.
  * Project: OnlineChat
  */
+
 public class Message extends RealmObject {
-    private Date created_time;
-    private Date recived_time;
-    private String msg;
 
-    public Date getCreated_time() {
-        return created_time;
+    private String session_uuid;
+    private Friend from_friend;
+    private RealmList<Friend> to_friend;
+    private String type;
+    private String content;
+    private Date received_time;
+
+    public Friend getFrom_friend() {
+        return from_friend;
     }
 
-    public void setCreated_time(Date created_time) {
-        this.created_time = created_time;
+    public void setFrom_friend(Friend from_friend) {
+        this.from_friend = from_friend;
     }
 
-    public Date getRecived_time() {
-        return recived_time;
+    public RealmList<Friend> getTo_friend() {
+        return to_friend;
     }
 
-    public void setRecived_time(Date recived_time) {
-        this.recived_time = recived_time;
+    public void setTo_friend(RealmList<Friend> to_friend) {
+        this.to_friend = to_friend;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getType() {
+        return type;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getReceived_time() {
+        return received_time;
+    }
+
+    public void setReceived_time(Date received_time) {
+        this.received_time = received_time;
+    }
+
+    public String getSession_uuid() {
+        return session_uuid;
+    }
+
+    public void setSession_uuid(String session_uuid) {
+        this.session_uuid = session_uuid;
     }
 }
+

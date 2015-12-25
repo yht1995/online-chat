@@ -34,13 +34,7 @@ public class Session extends RealmObject {
         this.update_time = update_time;
     }
 
-    public String getUUID() {
-        return uuid;
-    }
 
-    public void setUUID(String uuid) {
-        this.uuid = uuid;
-    }
 
     public RealmList<Message> getMessages() {
         return messages;
@@ -48,5 +42,13 @@ public class Session extends RealmObject {
 
     public void setMessages(RealmList<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

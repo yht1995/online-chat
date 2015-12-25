@@ -1,4 +1,4 @@
-package cn.yaoht.onlinechat.model;
+package cn.yaoht.onlinechat.midware;
 
 import android.util.Base64;
 
@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
+
+import cn.yaoht.onlinechat.model.Message;
 
 /**
  * Created by yaoht on 2015/12/26.

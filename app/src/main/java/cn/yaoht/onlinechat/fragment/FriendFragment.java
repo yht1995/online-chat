@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.Objects;
 
 import cn.yaoht.onlinechat.R;
-import cn.yaoht.onlinechat.ServerBackend;
+import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
@@ -69,11 +69,17 @@ public class FriendFragment extends Fragment {
         RefreshFriendOnlineState();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
+    }
+
     private void RefreshFriendOnlineState() {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                ServerBackend server = ServerBackend.getInstance();
+                ServerMidware server = ServerMidware.getInstance();
                 friends = bgRealm.where(Friend.class).findAll();
                 for (int i = 0; i < friends.size(); i++) {
                     Friend friend = friends.get(i);
@@ -91,6 +97,9 @@ public class FriendFragment extends Fragment {
             @Override
             public void onSuccess() {
                 realmRecyclerView.setRefreshing(false);
+                friends = realm.where(Friend.class).findAll();
+                friendRecyclerViewAdapter = new FriendRecyclerViewAdapter(getContext(), friends, true, true);
+                realmRecyclerView.setAdapter(friendRecyclerViewAdapter);
             }
 
             @Override

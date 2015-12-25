@@ -7,6 +7,7 @@ package cn.yaoht.onlinechat;
 
 import android.app.Application;
 
+import cn.yaoht.onlinechat.midware.ServerMidware;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -20,6 +21,6 @@ public class OnlineChat extends Application {
 //        Realm.deleteRealm(realmConfiguration); // Clean slate
         Realm.setDefaultConfiguration(realmConfiguration); // Make this Realm the default
 
-        new ServerBackend("166.111.140.14",8000);
+        new ServerMidware("166.111.140.14",8000);
     }
 }

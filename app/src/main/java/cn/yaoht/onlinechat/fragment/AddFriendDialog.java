@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.Objects;
 
 import cn.yaoht.onlinechat.R;
+import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import io.realm.Realm;
 
@@ -36,7 +40,7 @@ public class AddFriendDialog extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         realm = Realm.getInstance(getContext());
@@ -52,14 +56,37 @@ public class AddFriendDialog extends DialogFragment {
         button_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                realm.beginTransaction();
-                Friend friend = realm.createObject(Friend.class);
-                friend.setUser_id(edit_friend_id.getText().toString());
-                friend.setIp_address("");
-                friend.setOn_line(false);
-                friend.setNick_name("");
-                realm.commitTransaction();
-                dismiss();
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm bgRealm) {
+                        ServerMidware server = ServerMidware.getInstance();
+                        Friend friend = new Friend();
+                        friend.setUser_id(edit_friend_id.getText().toString());
+                        friend.setIp_address("");
+                        friend.setOn_line(false);
+                        friend.setNick_name("");
+                        String ip = server.QueryOnlineState(friend);
+                        if (Objects.equals(ip, "n")) {
+                            friend.setOn_line(false);
+                            friend.setIp_address("");
+                        } else {
+                            friend.setOn_line(true);
+                            friend.setIp_address(ip);
+                        }
+                        bgRealm.copyToRealmOrUpdate(friend);
+                    }
+                }, new Realm.Transaction.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(getContext(), "Add Friend Error!", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

@@ -17,12 +17,20 @@ import cn.yaoht.onlinechat.model.Friend;
  * Project: OnlineChat
  */
 public class ServerBackend {
+
     private String ip_address;
     private int port;
+
+    private static ServerBackend instance;
+
+    public static ServerBackend getInstance() {
+        return instance;
+    }
 
     public ServerBackend(String ip_address, int port) {
         this.ip_address = ip_address;
         this.port = port;
+        instance = this;
     }
 
     public boolean Login(String username, String password) {

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import cn.yaoht.onlinechat.fragment.FriendFragment;
 import cn.yaoht.onlinechat.fragment.SessionFragment;
+import cn.yaoht.onlinechat.midware.ServerMidware;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,16 +61,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_login:
-                ServerBackend serverBackend = ServerBackend.getInstance();
-                serverBackend.setOnlineStateChangedListener(new ServerBackend.OnlineStateChangedListener() {
+                ServerMidware serverMidware = ServerMidware.getInstance();
+                serverMidware.setOnlineStateChangedListener(new ServerMidware.OnlineStateChangedListener() {
                     @Override
                     public void ChangeOnlineState(boolean is_online) {
                         loginMenu.setIcon(is_online ? R.drawable.ic_person_24dp : R.drawable.ic_person_outline_24dp);
                     }
                 });
 
-                if (serverBackend.getIs_online()) {
-                    serverBackend.Logout();
+                if (serverMidware.getIs_online()) {
+                    serverMidware.Logout();
                 } else {
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivityForResult(intent, LOGIN_REQUEST);
@@ -83,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST && resultCode == RESULT_OK) {
-            ServerBackend serverBackend = ServerBackend.getInstance();
-            loginMenu.setIcon((serverBackend.getIs_online()) ? R.drawable.ic_person_24dp : R.drawable.ic_person_outline_24dp);
+            ServerMidware serverMidware = ServerMidware.getInstance();
+            loginMenu.setIcon((serverMidware.getIs_online()) ? R.drawable.ic_person_24dp : R.drawable.ic_person_outline_24dp);
+            if (serverMidware.getIs_online()) {
+                P2PIntentService.startActionListen(this);
+            }
         }
     }
 

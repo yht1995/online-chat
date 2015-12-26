@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'io.realm:realm-android:0.86.0'
     compile 'com.github.thorbenprimke:realm-recyclerview:0.9.10'
+    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
 }

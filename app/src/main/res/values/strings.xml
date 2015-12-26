@@ -11,4 +11,6 @@
     <string name="add_friend">Add Friend</string>
     <string name="outline">Outline</string>
     <string name="password">Password</string>
+    <string name="send">Send</string>
+    <string name="file">File</string>
 </resources>

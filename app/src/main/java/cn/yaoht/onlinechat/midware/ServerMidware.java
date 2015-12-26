@@ -23,9 +23,9 @@ public class ServerMidware {
     private String ip_address;
     private int port;
     private String username;
+    private String password;
     private Boolean is_online;
     private OnlineStateChangedListener onlineStateChangedListener;
-
     public ServerMidware(String ip_address, int port) {
         this.ip_address = ip_address;
         this.port = port;
@@ -37,11 +37,20 @@ public class ServerMidware {
         return instance;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void Login() throws Exception {
+        Login(username,password);
+    }
+
     public void Login(String username, String password) throws Exception {
         if (!Utility.CheckUserID(username)) {
             throw new Exception("UserId Illegal");
         }
         this.username = username;
+        this.password = password;
         new LoginAsync().execute(username + "_" + password);
     }
 

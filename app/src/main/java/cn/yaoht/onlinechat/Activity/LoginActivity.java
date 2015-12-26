@@ -1,4 +1,4 @@
-package cn.yaoht.onlinechat;
+package cn.yaoht.onlinechat.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.midware.ServerMidware;
 
 public class LoginActivity extends AppCompatActivity {

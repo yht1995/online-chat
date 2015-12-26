@@ -59,7 +59,7 @@ public class P2PIntentService extends IntentService {
                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         String str = in.readLine();
                         Log.v("Service", str);
-                        Message message = JsonSerializer.JsontoMessage(str);
+                        JsonSerializer.JsontoMessage(str);
                         in.close();
                         socket.close();
                     }

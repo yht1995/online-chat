@@ -23,4 +23,12 @@ public class OnlineChat extends Application {
 
         new ServerMidware("166.111.140.14",8000);
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ServerMidware serverMidware = ServerMidware.getInstance();
+        serverMidware.Logout();
+    }
 }
+

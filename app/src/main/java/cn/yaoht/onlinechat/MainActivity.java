@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import cn.yaoht.onlinechat.activity.LoginActivity;
 import cn.yaoht.onlinechat.fragment.FriendFragment;
 import cn.yaoht.onlinechat.fragment.SessionFragment;
 import cn.yaoht.onlinechat.midware.ServerMidware;
@@ -46,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(imageResId[i]);
+        }
+
+        ServerMidware serverMidware = ServerMidware.getInstance();
+        if (serverMidware.getUsername() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, LOGIN_REQUEST);
+        }else {
+            try {
+                serverMidware.Login();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

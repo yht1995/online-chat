@@ -4,6 +4,7 @@ import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Index;
 
 /**
  * Created by yaoht on 2015/12/4.
@@ -12,7 +13,9 @@ import io.realm.RealmObject;
 
 public class Message extends RealmObject {
 
+    @Index
     private String session_uuid;
+
     private Friend from_friend;
     private RealmList<Friend> to_friend;
     private String type;

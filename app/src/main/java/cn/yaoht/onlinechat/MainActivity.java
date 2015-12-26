@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     static final int LOGIN_REQUEST = 1;
     private int[] imageResId = {
             R.drawable.ic_textsms_24dp,
-            R.drawable.ic_people_24dp
+            R.drawable.ic_quick_contacts_mail_24dp
     };
     private MenuItem loginMenu;
 

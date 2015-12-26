@@ -59,43 +59,56 @@ public class JsonSerializer {
         message.setReceived_time(new Date());
         message.setSession_uuid(json.getString("UUID"));
 
-
-        final RealmResults<Friend> from_friend = realm.where(Friend.class).equalTo("user_id", json.getString("from")).findAll();
-        message.setFrom_friend(from_friend.first());
+        realm.beginTransaction();
+        message.setFrom_friend(getFriend(json.getString("from")));
 
         JSONArray to_friend = json.getJSONArray("to");
         final RealmList<Friend> to_friend_list = new RealmList<>();
         for (int i = 0; i < to_friend.length(); i++) {
-            RealmResults<Friend> to = realm.where(Friend.class).equalTo("user_id", (String) to_friend.get(i)).findAll();
-            to_friend_list.add(to.first());
+            to_friend_list.add(getFriend((String) to_friend.get(i)));
         }
         message.setTo_friend(to_friend_list);
+
         message.setType(json.getString("type"));
         if (Objects.equals(message.getType(), "msg")) {
             message.setContent(json.getString("content"));
         }
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Session session;
-                realm.copyToRealm(message);
-                RealmResults<Session> sessionRealmResults = realm.where(Session.class).equalTo("uuid", message.getSession_uuid()).findAll();
-                if (sessionRealmResults.size() == 0) {
-                    session = realm.createObject(Session.class);
-                    session.setUuid(message.getSession_uuid());
-                    RealmList<Friend> friends = new RealmList<Friend>();
-                    for (Friend f : message.getTo_friend()) {
-                        friends.add(f);
-                    }
-                    friends.add(message.getFrom_friend());
-                    session.setFriends(friends);
-                } else {
-                    session = sessionRealmResults.first();
-                }
-                session.setUpdate_time(new Date());
+
+        Session session;
+        realm.copyToRealm(message);
+        RealmResults<Session> sessionRealmResults = realm.where(Session.class).equalTo("uuid", message.getSession_uuid()).findAll();
+        if (sessionRealmResults.size() == 0) {
+            session = realm.createObject(Session.class);
+            session.setUuid(message.getSession_uuid());
+            RealmList<Friend> friends = new RealmList<>();
+            for (Friend f : message.getTo_friend()) {
+                friends.add(f);
             }
-        });
+            friends.add(message.getFrom_friend());
+            session.setFriends(friends);
+        } else {
+            session = sessionRealmResults.first();
+        }
+        session.setUpdate_time(new Date());
+        session.setMessages(message.getContent());
+        realm.commitTransaction();
         return message;
+    }
+
+    private static Friend getFriend(String user_id) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Friend> friendRealmResults = realm.where(Friend.class).equalTo("user_id", user_id).findAll();
+        Friend friend;
+        if (friendRealmResults.size() == 0) {
+            friend = realm.createObject(Friend.class);
+            friend.setUser_id(user_id);
+            friend.setIp_address("");
+            friend.setOn_line(false);
+            friend.setNick_name("");
+        } else {
+            friend = friendRealmResults.first();
+        }
+        return friend;
     }
 }

@@ -65,6 +65,7 @@ public class P2PIntentService extends IntentService {
                     }
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
+                    run();
                 }
             }
         }.run();

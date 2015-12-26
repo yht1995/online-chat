@@ -58,6 +58,7 @@ public class FriendFragment extends Fragment {
         super.onStart();
         realm = Realm.getDefaultInstance();
         friends = realm.where(Friend.class).findAll();
+        friends.sort("user_id");
         friendRecyclerViewAdapter = new FriendRecyclerViewAdapter(getContext(), friends, true, true);
         realmRecyclerView.setAdapter(friendRecyclerViewAdapter);
         realmRecyclerView.setOnRefreshListener(new OnFriendsFragmentRefreshListener());

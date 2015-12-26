@@ -42,6 +42,7 @@ public class SessionFragment extends Fragment {
         super.onStart();
         realm = Realm.getDefaultInstance();
         sessions = realm.where(Session.class).findAll();
+        sessions.sort("update_time");
         sessionRecyclerViewAdapter = new SessionRecyclerViewAdapter(getContext(),sessions,true,true);
         realmRecyclerView.setAdapter(sessionRecyclerViewAdapter);
     }

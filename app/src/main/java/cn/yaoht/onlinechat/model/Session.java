@@ -15,8 +15,16 @@ public class Session extends RealmObject {
     private String uuid;
 
     private RealmList<Friend> friends;
-    private RealmList<Message> messages;
+    private String messages;
     private Date update_time;
+
+    public String getMessages() {
+        return messages;
+    }
+
+    public void setMessages(String messages) {
+        this.messages = messages;
+    }
 
     public RealmList<Friend> getFriends() {
         return friends;
@@ -34,15 +42,6 @@ public class Session extends RealmObject {
         this.update_time = update_time;
     }
 
-
-
-    public RealmList<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(RealmList<Message> messages) {
-        this.messages = messages;
-    }
 
     public String getUuid() {
         return uuid;

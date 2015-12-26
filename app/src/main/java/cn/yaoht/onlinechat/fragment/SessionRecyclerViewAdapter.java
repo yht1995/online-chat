@@ -8,8 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.activity.MessageActivity;
+import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Session;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -39,14 +42,22 @@ public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Se
     @Override
     public void onBindRealmViewHolder(SessionRecyclerViewAdapter.ViewHolder viewHolder, int i) {
         final Session session = realmResults.get(i);
+        ServerMidware serverMidware = ServerMidware.getInstance();
         String name = "";
         for (Friend friend : session.getFriends()) {
-            name += friend.getUser_id();
+            if (!Objects.equals(friend.getUser_id(), serverMidware.getUsername())) {
+                name += friend.getUser_id();
+                name += " ";
+            }
         }
         viewHolder.itemView.setOnClickListener(new OnItemClickListener(i));
         viewHolder.name.setText(name);
-        viewHolder.avatar.setImageResource(R.drawable.ic_textsms_24dp);
-        viewHolder.message.setText(session.getUpdate_time().toString());
+        if (session.getFriends().size() > 2) {
+            viewHolder.avatar.setImageResource(R.drawable.ic_group_24dp);
+        } else {
+            viewHolder.avatar.setImageResource(R.drawable.ic_textsms_24dp);
+        }
+        viewHolder.message.setText(session.getMessages());
     }
 
     public class ViewHolder extends RealmViewHolder {
@@ -74,7 +85,7 @@ public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Se
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), MessageActivity.class);
-            intent.putExtra(SESSION_UUID,session_uuid);
+            intent.putExtra(SESSION_UUID, session_uuid);
             view.getContext().startActivity(intent);
         }
     }

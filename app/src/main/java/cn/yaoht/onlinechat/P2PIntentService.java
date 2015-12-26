@@ -5,11 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import cn.yaoht.onlinechat.midware.JsonSerializer;
+import cn.yaoht.onlinechat.model.Message;
 
 
 /**
@@ -43,7 +48,7 @@ public class P2PIntentService extends IntentService {
     }
 
     private void handleActionListen() {
-        new Thread(new Runnable() {
+        new Runnable() {
             @Override
             public void run() {
                 try {
@@ -54,13 +59,14 @@ public class P2PIntentService extends IntentService {
                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         String str = in.readLine();
                         Log.v("Service", str);
+                        Message message = JsonSerializer.JsontoMessage(str);
                         in.close();
                         socket.close();
                     }
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }.run();
     }
 }

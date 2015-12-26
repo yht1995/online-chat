@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import cn.yaoht.onlinechat.midware.ServerMidware;
 
@@ -34,7 +35,11 @@ public class LoginActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                serverMidware.Login(edittext_userid.getText().toString(), edittext_password.getText().toString());
+                try {
+                    serverMidware.Login(edittext_userid.getText().toString(), edittext_password.getText().toString());
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import cn.yaoht.onlinechat.R;
+import cn.yaoht.onlinechat.Utility;
 import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import io.realm.Realm;
@@ -56,7 +57,10 @@ public class AddFriendDialog extends DialogFragment {
         button_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!Utility.CheckUserID(edit_friend_id.getText().toString())){
+                    Toast.makeText(getContext(), "User ID illegal", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm bgRealm) {

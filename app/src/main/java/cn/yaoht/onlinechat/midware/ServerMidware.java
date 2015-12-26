@@ -9,7 +9,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.Utility;
 import cn.yaoht.onlinechat.model.Friend;
@@ -38,7 +37,10 @@ public class ServerMidware {
         return instance;
     }
 
-    public void Login(String username, String password) {
+    public void Login(String username, String password) throws Exception {
+        if (!Utility.CheckUserID(username)) {
+            throw new Exception("UserId Illegal");
+        }
         this.username = username;
         new LoginAsync().execute(username + "_" + password);
     }
@@ -53,7 +55,12 @@ public class ServerMidware {
     }
 
     public String QueryOnlineState(Friend friend) {
-        return ServerSocket("q" + friend.getUser_id());
+        String ip = ServerSocket("q" + friend.getUser_id());
+        if (Utility.CheckIPAddress(ip)) {
+            return ip;
+        } else {
+            return "n";
+        }
     }
 
     public void setOnlineStateChangedListener(OnlineStateChangedListener onlineStateChangedListener) {

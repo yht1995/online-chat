@@ -64,8 +64,12 @@ public class JsonSerializer {
 
         JSONArray to_friend = json.getJSONArray("to");
         final RealmList<Friend> to_friend_list = new RealmList<>();
+        ServerMidware serverMidware = ServerMidware.getInstance();
         for (int i = 0; i < to_friend.length(); i++) {
-            to_friend_list.add(getFriend((String) to_friend.get(i)));
+            String user_id = (String) to_friend.get(i);
+            if (!Objects.equals(user_id, serverMidware.getUsername())) {
+                to_friend_list.add(getFriend(user_id));
+            }
         }
         message.setTo_friend(to_friend_list);
 
@@ -96,7 +100,7 @@ public class JsonSerializer {
         return message;
     }
 
-    private static Friend getFriend(String user_id) {
+    public static Friend getFriend(String user_id) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Friend> friendRealmResults = realm.where(Friend.class).equalTo("user_id", user_id).findAll();
         Friend friend;

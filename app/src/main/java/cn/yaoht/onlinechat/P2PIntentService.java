@@ -25,6 +25,7 @@ import cn.yaoht.onlinechat.model.Message;
  */
 public class P2PIntentService extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+    public static final int P2P_PORT = 53000;
     private static final String ACTION_LISTEN = "cn.yaoht.onlinechat.action.LISTEN";
 
     public P2PIntentService() {
@@ -52,7 +53,7 @@ public class P2PIntentService extends IntentService {
             @Override
             public void run() {
                 try {
-                    ServerSocket server = new ServerSocket(53000);
+                    ServerSocket server = new ServerSocket(P2P_PORT);
                     //noinspection InfiniteLoopStatement
                     while (true) {
                         Socket socket = server.accept();

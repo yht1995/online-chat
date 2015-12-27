@@ -1,0 +1,46 @@
+package cn.yaoht.onlinechat.activity;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+
+public class ClearDBWarringDialog extends DialogFragment {
+
+    NoticeDialogListener mListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mListener = (NoticeDialogListener) activity;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("Warring!!")
+                .setMessage("Change user will delete all of the message!\nContinue?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mListener.onDialogPositiveClick(ClearDBWarringDialog.this);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mListener.onDialogNegativeClick(ClearDBWarringDialog.this);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert);
+        return builder.create();
+    }
+
+    public interface NoticeDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
+
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
+}

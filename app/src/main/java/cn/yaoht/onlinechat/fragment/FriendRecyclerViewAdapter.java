@@ -3,10 +3,12 @@ package cn.yaoht.onlinechat.fragment;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.model.Friend;
@@ -20,22 +22,16 @@ import io.realm.RealmViewHolder;
  */
 public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Friend,
         FriendRecyclerViewAdapter.ViewHolder> {
+
+    private ArrayList<Boolean> checked_list;
+
     public FriendRecyclerViewAdapter(Context context, RealmResults<Friend> realmResults, boolean automaticUpdate, boolean animateResults) {
         super(context, realmResults, automaticUpdate, animateResults);
+        checked_list = new ArrayList<>();
     }
 
-    public class ViewHolder extends RealmViewHolder {
-
-        ImageView avatar;
-        TextView name;
-        TextView description;
-
-        public ViewHolder(LinearLayout container) {
-            super(container);
-            this.avatar = (ImageView) container.findViewById(R.id.friend_avatar);
-            this.name = (TextView) container.findViewById(R.id.friend_name);
-            this.description = (TextView) container.findViewById(R.id.friend_description);
-        }
+    public ArrayList<Boolean> getChecked_list() {
+        return checked_list;
     }
 
     @Override
@@ -49,28 +45,46 @@ public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Fri
         final Friend friend = realmResults.get(pos);
 
         viewHolder.name.setText(friend.getUser_id());
-        viewHolder.itemView.setOnClickListener(new OnItemClickListener(pos));
+        checked_list.add(pos, viewHolder.checkBox.isChecked());
+        viewHolder.checkBox.setOnClickListener(new OnItemClickListener(pos));
 
         if (friend.getOn_line()) {
             viewHolder.description.setText(friend.getIp_address());
-            viewHolder.avatar.setImageResource(R.drawable.ic_person_24dp);
+            viewHolder.avatar.setImageResource(R.drawable.ic_person_48dp);
         } else {
             viewHolder.description.setText(R.string.outline);
-            viewHolder.avatar.setImageResource(R.drawable.ic_person_outline_24dp);
+            viewHolder.avatar.setImageResource(R.drawable.ic_person_outline_48dp);
         }
 
     }
 
-    private class OnItemClickListener implements View.OnClickListener {
-        private Friend friend;
+
+    public class ViewHolder extends RealmViewHolder {
+
+        ImageView avatar;
+        TextView name;
+        TextView description;
+        CheckBox checkBox;
+
+        public ViewHolder(LinearLayout container) {
+            super(container);
+            this.avatar = (ImageView) container.findViewById(R.id.friend_avatar);
+            this.name = (TextView) container.findViewById(R.id.friend_name);
+            this.description = (TextView) container.findViewById(R.id.friend_description);
+            this.checkBox = (CheckBox) container.findViewById(R.id.friend_checkbox);
+        }
+    }
+
+    private class OnItemClickListener implements CheckBox.OnClickListener {
+        private int pos;
 
         OnItemClickListener(int position) {
-            this.friend = realmResults.get(position);
+            this.pos = position;
         }
 
         @Override
-        public void onClick(View view) {
-            Toast.makeText(view.getContext(), "OnClick :" + friend.getUser_id(), Toast.LENGTH_SHORT).show();
+        public void onClick(View v) {
+            checked_list.set(pos, ((CheckBox) v).isChecked());
         }
     }
 }

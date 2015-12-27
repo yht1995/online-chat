@@ -27,8 +27,6 @@ import io.realm.RealmViewHolder;
 public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Session,
         SessionRecyclerViewAdapter.ViewHolder> {
 
-    public final static String SESSION_UUID = "cn.yaoht.onlinechat.SESSION_UUID";
-
     public SessionRecyclerViewAdapter(Context context, RealmResults<Session> realmResults, boolean automaticUpdate, boolean animateResults) {
         super(context, realmResults, automaticUpdate, animateResults);
     }
@@ -85,7 +83,7 @@ public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Se
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(view.getContext(), MessageActivity.class);
-            intent.putExtra(SESSION_UUID, session_uuid);
+            intent.putExtra(MessageActivity.SESSION_UUID, session_uuid);
             view.getContext().startActivity(intent);
         }
     }

@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.yaoht.onlinechat.fragment.FriendFragment">
@@ -10,16 +10,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rrvIsRefreshable="true"
-        app:rrvLayoutType="LinearLayout"
-        />
+        app:rrvLayoutType="LinearLayout" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_friend_button_start_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="84dp"
+        android:src="@drawable/ic_question_answer_24dp"
+        app:layout_anchor="@id/fragment_friend_realm_recycler_view"
+        app:layout_anchorGravity="bottom|right|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fragment_friend_button_friend_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:clickable="true"
         android:src="@drawable/ic_person_add_24dp"
         app:layout_anchor="@id/fragment_friend_realm_recycler_view"
         app:layout_anchorGravity="bottom|right|end" />

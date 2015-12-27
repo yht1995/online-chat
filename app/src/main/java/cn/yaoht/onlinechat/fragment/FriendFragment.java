@@ -1,17 +1,21 @@
 package cn.yaoht.onlinechat.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import cn.yaoht.onlinechat.R;
+import cn.yaoht.onlinechat.activity.MessageActivity;
 import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -35,19 +39,40 @@ public class FriendFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friend, container, false);
+        final View view = inflater.inflate(R.layout.fragment_friend, container, false);
         realmRecyclerView = (RealmRecyclerView) view.findViewById(R.id.fragment_friend_realm_recycler_view);
 
-        FloatingActionButton button_add_friend = (FloatingActionButton) view.findViewById(R.id.fragment_friend_button_friend_add);
+        final FloatingActionButton button_add_friend = (FloatingActionButton) view.findViewById(R.id.fragment_friend_button_friend_add);
         button_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 AddFriendDialog editNameDialog = AddFriendDialog.newInstance();
                 editNameDialog.show(fm, "add friend");
+            }
+        });
+
+        FloatingActionButton button_start_session = (FloatingActionButton) view.findViewById(R.id.fragment_friend_button_start_session);
+        button_start_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Boolean> checked_list = friendRecyclerViewAdapter.getChecked_list();
+                ArrayList<String> friend_list = new ArrayList<>();
+                for (int i = 0; i < checked_list.size(); i++) {
+                    if (checked_list.get(i)) {
+                        friend_list.add(friends.get(i).getUser_id());
+                    }
+                }
+                if (friend_list.size() == 0) {
+                    Snackbar.make(button_add_friend, "Please select at least one friend", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), MessageActivity.class);
+                    intent.putStringArrayListExtra(MessageActivity.SESSION_FRIEND, friend_list);
+                    startActivity(intent);
+                }
             }
         });
         return view;

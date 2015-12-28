@@ -53,7 +53,6 @@ public class MessageActivity extends AppCompatActivity {
         MessageRecyclerViewAdapter messageRecyclerViewAdapter = new MessageRecyclerViewAdapter(this, messages, true);
         final ListView listView = (ListView) findViewById(R.id.activity_message_list_view);
         listView.setAdapter(messageRecyclerViewAdapter);
-
         final EditText editText = (EditText) findViewById(R.id.activity_message_edittext_message);
 
 

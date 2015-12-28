@@ -105,7 +105,11 @@ public class MessageMidware {
             session = sessionRealmResults.first();
         }
         session.setUpdate_time(new Date());
-        session.setMessages(message.getContent());
+        if (Objects.equals(message.getType(), "msg")) {
+            session.setMessages(message.getContent());
+        }else if (Objects.equals(message.getType(), "file")){
+            session.setMessages("[File]");
+        }
         realm.commitTransaction();
 
         return message;

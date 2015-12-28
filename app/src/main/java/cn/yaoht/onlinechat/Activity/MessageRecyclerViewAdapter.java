@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -77,10 +78,10 @@ public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implem
 
             File file = new File(message.getContent());
             String mime = URLConnection.guessContentTypeFromName(file.getName());
-            if (Pattern.matches("^image/.*",mime)) {
+            if (mime != null && Pattern.matches("^image/.*", mime)) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 16;
-                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
                 viewHolder.image.setImageBitmap(bitmap);
                 viewHolder.massage.setVisibility(View.GONE);
             } else {
@@ -113,8 +114,12 @@ public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implem
             Intent intent = new Intent(Intent.ACTION_VIEW);
             File file = new File(filepath);
             String mime = URLConnection.guessContentTypeFromName(file.getName());
-            intent.setDataAndType(Uri.fromFile(file), mime);
-            context.startActivity(intent);
+            if (mime != null) {
+                intent.setDataAndType(Uri.fromFile(file), mime);
+                context.startActivity(intent);
+            }else{
+                Snackbar.make(view, "Can not open this file", Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 }

@@ -28,15 +28,15 @@ public class MessageMidware {
     static private Realm realm = Realm.getDefaultInstance();
     static private ServerMidware serverMidware = ServerMidware.getInstance();
 
-    public void SendMessage(Session session, String msg) {
+    public void SendMessage(Session session, String msg, String type) {
         realm.beginTransaction();
-        Friend self = JsonSerializer.getFriend(serverMidware.getUsername());
+        Friend self = Serializer.getFriend(serverMidware.getUsername());
         self.setUser_id(serverMidware.getUsername());
         Message message = realm.createObject(Message.class);
         message.setSession_uuid(session.getUuid());
         message.setFrom_friend(self);
         message.setTo_friend(session.getFriends());
-        message.setType("msg");
+        message.setType(type);
         message.setContent(msg);
         message.setReceived_time(new Date());
         session.setMessages(msg);
@@ -50,7 +50,7 @@ public class MessageMidware {
             }
         }
         try {
-            sendMessage.msg = JsonSerializer.MessagetoJson(message);
+            sendMessage.msg = Serializer.MessagetoJson(message);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }

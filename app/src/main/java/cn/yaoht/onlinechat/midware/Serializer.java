@@ -1,5 +1,6 @@
 package cn.yaoht.onlinechat.midware;
 
+import android.os.Environment;
 import android.util.Base64;
 
 import org.json.JSONArray;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
@@ -23,7 +25,7 @@ import io.realm.RealmResults;
  * Created by yaoht on 2015/12/26.
  * Project: OnlineChat
  */
-public class JsonSerializer {
+public class Serializer {
 
     public static String MessagetoJson(Message message) throws JSONException, IOException {
         JSONObject json_message = new JSONObject();
@@ -41,18 +43,35 @@ public class JsonSerializer {
         if (Objects.equals(message.getType(), "msg")) {
             json_message.put("content", message.getContent());
         } else if (Objects.equals(message.getType(), "file")) {
-            File originalFile = new File(message.getContent());
-            FileInputStream fileInputStreamReader = new FileInputStream(originalFile);
-            byte[] bytes = new byte[(int) originalFile.length()];
-            fileInputStreamReader.read(bytes);
-            String encodedBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);
-            json_message.put("name", message.getContent());
+            File file = new File(message.getContent());
+            String encodedBase64 = FileEncodeBase64(file);
+            json_message.put("name", file.getName());
             json_message.put("content", encodedBase64);
         }
         return json_message.toString();
     }
 
-    public static Message JsontoMessage(String str) throws JSONException {
+    private static String FileEncodeBase64(File file) throws IOException {
+        FileInputStream stream = new FileInputStream(file);
+        byte[] bytes = new byte[(int) file.length()];
+        stream.read(bytes);
+        stream.close();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private static String FileDecodeBase64(String base64, String filename) throws IOException {
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS), filename);
+
+        FileOutputStream stream = new FileOutputStream(file);
+        byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+        stream.write(bytes);
+        stream.flush();
+        stream.close();
+        return file.getAbsolutePath();
+    }
+
+    public static Message JsontoMessage(String str) throws JSONException, IOException {
         Realm realm = Realm.getDefaultInstance();
         JSONObject json = new JSONObject(str);
         final Message message = new Message();
@@ -76,8 +95,9 @@ public class JsonSerializer {
         message.setType(json.getString("type"));
         if (Objects.equals(message.getType(), "msg")) {
             message.setContent(json.getString("content"));
+        } else if (Objects.equals(message.getType(), "file")) {
+            message.setContent(FileDecodeBase64(json.getString("content"), json.getString("name")));
         }
-
 
         Session session;
         realm.copyToRealm(message);

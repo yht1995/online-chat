@@ -13,8 +13,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import cn.yaoht.onlinechat.midware.JsonSerializer;
-import cn.yaoht.onlinechat.model.Message;
+import cn.yaoht.onlinechat.midware.Serializer;
 
 
 /**
@@ -60,13 +59,12 @@ public class P2PIntentService extends IntentService {
                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         String str = in.readLine();
                         Log.v("Service", str);
-                        JsonSerializer.JsontoMessage(str);
+                        Serializer.JsontoMessage(str);
                         in.close();
                         socket.close();
                     }
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
-                    run();
                 }
             }
         }.run();

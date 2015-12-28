@@ -12,7 +12,7 @@ import io.realm.RealmList;
  * Created by yaoht on 2015/12/26.
  * Project: OnlineChat
  */
-public class JsonSerializerTest extends TestCase {
+public class SerializerTest extends TestCase {
 
     public void testMessagetoJson() throws Exception {
         Message message = new Message();
@@ -31,7 +31,7 @@ public class JsonSerializerTest extends TestCase {
         message.setType("msg");
         message.setContent("Hello World");
 
-        String json_string = JsonSerializer.MessagetoJson(message);
+        String json_string = Serializer.MessagetoJson(message);
         Log.i("Json_test",json_string);
     }
 }

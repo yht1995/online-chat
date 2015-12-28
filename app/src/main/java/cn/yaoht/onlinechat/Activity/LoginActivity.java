@@ -62,6 +62,12 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
                     ClearDBWarringDialog warringDialog = new ClearDBWarringDialog();
                     warringDialog.show(fm, "clear warring");
                 } else {
+                    if (!settings.contains("userid")) {
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("userid", userid);
+                        editor.putString("password", password);
+                        editor.apply();
+                    }
                     try {
                         serverMidware.Login(userid, password);
                     } catch (Exception e) {

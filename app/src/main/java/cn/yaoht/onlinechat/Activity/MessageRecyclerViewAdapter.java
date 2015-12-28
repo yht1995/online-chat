@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.R;
+import cn.yaoht.onlinechat.midware.MessageMidware;
 import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Message;
 import io.realm.RealmBaseAdapter;
@@ -71,9 +72,9 @@ public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implem
                 viewHolder.massage = (TextView) convertView.findViewById(R.id.message_other_text_message);
                 viewHolder.bubble = (ChatMessageView) convertView.findViewById(R.id.message_other_bubble);
         }
-        if (Objects.equals(message.getType(), "msg")) {
+        if (Objects.equals(message.getType(), MessageMidware.TYPE_MSG)) {
             viewHolder.massage.setText(message.getContent());
-        } else if (Objects.equals(message.getType(), "file")) {
+        } else if (Objects.equals(message.getType(), MessageMidware.TYPE_FILE)) {
             viewHolder.image.setVisibility(View.VISIBLE);
 
             File file = new File(message.getContent());
@@ -118,7 +119,7 @@ public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implem
                 intent.setDataAndType(Uri.fromFile(file), mime);
                 context.startActivity(intent);
             }else{
-                Snackbar.make(view, "Can not open this file", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, R.string.error_cannot_open, Snackbar.LENGTH_SHORT).show();
             }
         }
     }

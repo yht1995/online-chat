@@ -13,4 +13,11 @@
     <string name="password">Password</string>
     <string name="send">Send</string>
     <string name="file">File</string>
+    <string name="warring">Warring!!</string>
+    <string name="clear_db_warring">Change user will delete all of the message!\nContinue?</string>
+    <string name="warring_blank_msg">Do not send blank text</string>
+    <string name="error_cannot_open">Can not open this file</string>
+    <string name="error_user_id_illegal">User ID illegal</string>
+    <string name="error_add_friend_error">Add Friend Error!</string>
+    <string name="warring_at_least_one_friend">Please select at least one friend</string>
 </resources>

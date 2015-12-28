@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.midware.MessageMidware;
+import cn.yaoht.onlinechat.midware.RawMessage;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
@@ -62,12 +63,12 @@ public class MessageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = editText.getText().toString();
                 if (Pattern.matches("^\\s*$", msg)) {
-                    Snackbar.make(listView, "Do not send blank text", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(listView, R.string.warring_blank_msg, Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 editText.setText("");
                 MessageMidware messageMidware = new MessageMidware();
-                messageMidware.SendMessage(session, msg, "msg");
+                messageMidware.SendMessage(session, msg, MessageMidware.TYPE_MSG);
             }
         });
 
@@ -89,7 +90,7 @@ public class MessageActivity extends AppCompatActivity {
         if (requestCode == SELECT_FILE_REQUSET && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             MessageMidware messageMidware = new MessageMidware();
-            messageMidware.SendMessage(session, uri.getPath(), "file");
+            messageMidware.SendMessage(session, uri.getPath(), MessageMidware.TYPE_FILE);
         }
     }
 

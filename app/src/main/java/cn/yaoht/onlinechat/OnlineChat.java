@@ -13,6 +13,9 @@ import io.realm.RealmConfiguration;
 
 public class OnlineChat extends Application {
 
+    public static final String SERVER_IP_ADDRESS = "166.111.140.14";
+    public static final int SERVER_PORT = 8000;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,7 +24,7 @@ public class OnlineChat extends Application {
 //        Realm.deleteRealm(realmConfiguration); // Clean slate
         Realm.setDefaultConfiguration(realmConfiguration); // Make this Realm the default
 
-        new ServerMidware("166.111.140.14",8000);
+        new ServerMidware(SERVER_IP_ADDRESS, SERVER_PORT);
     }
 
     @Override

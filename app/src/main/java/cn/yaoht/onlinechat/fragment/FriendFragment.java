@@ -67,7 +67,7 @@ public class FriendFragment extends Fragment {
                     }
                 }
                 if (friend_list.size() == 0) {
-                    Snackbar.make(button_add_friend, "Please select at least one friend", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(button_add_friend, R.string.warring_at_least_one_friend, Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getActivity(), MessageActivity.class);
                     intent.putStringArrayListExtra(MessageActivity.SESSION_FRIEND, friend_list);

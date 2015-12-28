@@ -22,6 +22,8 @@ import io.realm.Realm;
 public class LoginActivity extends AppCompatActivity implements ClearDBWarringDialog.NoticeDialogListener {
 
     static final String PREFS_NAME = "SETTING";
+    public static final String SETTING_USERID = "userid";
+    public static final String SETTING_PASSWORD = "password";
     private ServerMidware serverMidware;
     private SharedPreferences settings;
     private String userid;
@@ -36,8 +38,8 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
         final EditText edittext_password = (EditText) findViewById(R.id.activity_login_edittext_password);
 
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        edittext_userid.setText(settings.getString("userid", ""));
-        edittext_password.setText(settings.getString("password", ""));
+        edittext_userid.setText(settings.getString(SETTING_USERID, ""));
+        edittext_password.setText(settings.getString(SETTING_PASSWORD, ""));
 
 
         serverMidware = ServerMidware.getInstance();
@@ -57,15 +59,15 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
                 userid = edittext_userid.getText().toString();
                 password = edittext_password.getText().toString();
 
-                if (!Objects.equals(userid, settings.getString("userid", "")) && settings.contains("userid")) {
+                if (!Objects.equals(userid, settings.getString(SETTING_USERID, "")) && settings.contains(SETTING_USERID)) {
                     FragmentManager fm = getSupportFragmentManager();
                     ClearDBWarringDialog warringDialog = new ClearDBWarringDialog();
                     warringDialog.show(fm, "clear warring");
                 } else {
-                    if (!settings.contains("userid")) {
+                    if (!settings.contains(SETTING_USERID)) {
                         SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("userid", userid);
-                        editor.putString("password", password);
+                        editor.putString(SETTING_USERID, userid);
+                        editor.putString(SETTING_PASSWORD, password);
                         editor.apply();
                     }
                     try {
@@ -90,8 +92,8 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
             }
         }, null);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("userid", userid);
-        editor.putString("password", password);
+        editor.putString(SETTING_USERID, userid);
+        editor.putString(SETTING_PASSWORD, password);
         editor.apply();
         try {
             serverMidware.Login(userid, password);

@@ -27,6 +27,9 @@ import io.realm.RealmResults;
  */
 public class MessageMidware {
 
+    public static final String TYPE_MSG = "msg";
+    public static final String TYPE_FILE = "file";
+
     static private Realm realm = Realm.getDefaultInstance();
     static private ServerMidware serverMidware = ServerMidware.getInstance();
 
@@ -135,7 +138,6 @@ public class MessageMidware {
                     PrintWriter out = new PrintWriter(
                             new BufferedWriter(new OutputStreamWriter(
                                     socket.getOutputStream())), true);
-                    Log.i("send", msg);
                     out.print(msg);
                     out.flush();
                     socket.close();

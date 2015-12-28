@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import org.json.JSONException;
 
@@ -110,7 +109,6 @@ public class P2PIntentService extends IntentService {
                 Socket socket = params[0];
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String str = in.readLine();
-                Log.i("receive", str);
                 in.close();
                 socket.close();
                 return Serializer.JsontoMessage(str);

@@ -19,6 +19,9 @@ import cn.yaoht.onlinechat.model.Friend;
  */
 public class ServerMidware {
 
+    private static final String LOGIN_SUCCESSFUL = "lol";
+    private static final String LOGOUT_SUCCESSFUL = "loo";
+
     private static ServerMidware instance;
     private String ip_address;
     private int port;
@@ -26,6 +29,7 @@ public class ServerMidware {
     private String password;
     private Boolean is_online;
     private OnlineStateChangedListener onlineStateChangedListener;
+
     public ServerMidware(String ip_address, int port) {
         this.ip_address = ip_address;
         this.port = port;
@@ -42,7 +46,7 @@ public class ServerMidware {
     }
 
     public void Login() throws Exception {
-        Login(username,password);
+        Login(username, password);
     }
 
     public void Login(String username, String password) throws Exception {
@@ -114,10 +118,10 @@ public class ServerMidware {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (Objects.equals(s, "lol")) {
+            if (Objects.equals(s, LOGIN_SUCCESSFUL)) {
                 is_online = true;
                 onlineStateChangedListener.ChangeOnlineState(true);
-            } else if (Objects.equals(s, "loo")) {
+            } else if (Objects.equals(s, LOGOUT_SUCCESSFUL)) {
                 is_online = false;
                 onlineStateChangedListener.ChangeOnlineState(false);
             }

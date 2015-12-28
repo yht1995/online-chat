@@ -58,7 +58,7 @@ public class AddFriendDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (!Utility.CheckUserID(edit_friend_id.getText().toString())){
-                    Toast.makeText(getContext(), "User ID illegal", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.error_user_id_illegal, Toast.LENGTH_LONG).show();
                     return;
                 }
                 realm.executeTransaction(new Realm.Transaction() {
@@ -88,7 +88,7 @@ public class AddFriendDialog extends DialogFragment {
 
                     @Override
                     public void onError(Exception e) {
-                        Toast.makeText(getContext(), "Add Friend Error!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.error_add_friend_error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

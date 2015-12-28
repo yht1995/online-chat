@@ -3,6 +3,7 @@ package cn.yaoht.onlinechat;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import cn.yaoht.onlinechat.midware.MessageMidware;
+import cn.yaoht.onlinechat.midware.RawMessage;
 import cn.yaoht.onlinechat.midware.Serializer;
 
 
@@ -56,17 +59,41 @@ public class P2PIntentService extends IntentService {
                     //noinspection InfiniteLoopStatement
                     while (true) {
                         Socket socket = server.accept();
-                        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        String str = in.readLine();
-                        Log.v("Service", str);
-                        Serializer.JsontoMessage(str);
-                        in.close();
-                        socket.close();
+                        new ListenAsync().execute(socket);
                     }
-                } catch (IOException | JSONException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }.run();
+    }
+
+    private void OnNewMessageArrived(RawMessage rawMessage) {
+        MessageMidware messageMidware = new MessageMidware();
+        messageMidware.ReceiveMessage(rawMessage);
+    }
+
+    private class ListenAsync extends AsyncTask<Socket, Void, RawMessage> {
+
+        @Override
+        protected RawMessage doInBackground(Socket... params) {
+            try {
+                Socket socket = params[0];
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String str = in.readLine();
+                Log.i("receive", str);
+                in.close();
+                socket.close();
+                return Serializer.JsontoMessage(str);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(RawMessage rawMessage) {
+            OnNewMessageArrived(rawMessage);
+        }
     }
 }

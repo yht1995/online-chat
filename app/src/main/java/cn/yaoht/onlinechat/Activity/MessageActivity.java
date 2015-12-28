@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.midware.MessageMidware;
-import cn.yaoht.onlinechat.midware.Serializer;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
@@ -107,7 +106,7 @@ public class MessageActivity extends AppCompatActivity {
         session.setUuid(UUID.randomUUID().toString());
         RealmList<Friend> friendRealmList = new RealmList<>();
         for (String friend_id : friend_list) {
-            friendRealmList.add(Serializer.getFriend(friend_id));
+            friendRealmList.add(MessageMidware.getFriend(friend_id));
         }
         session.setFriends(friendRealmList);
         session.setMessages("");

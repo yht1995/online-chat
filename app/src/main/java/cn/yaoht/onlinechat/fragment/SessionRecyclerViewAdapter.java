@@ -8,11 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.activity.MessageActivity;
-import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Session;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -40,13 +37,10 @@ public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Se
     @Override
     public void onBindRealmViewHolder(SessionRecyclerViewAdapter.ViewHolder viewHolder, int i) {
         final Session session = realmResults.get(i);
-        ServerMidware serverMidware = ServerMidware.getInstance();
         String name = "";
         for (Friend friend : session.getFriends()) {
-            if (!Objects.equals(friend.getUser_id(), serverMidware.getUsername())) {
-                name += friend.getUser_id();
-                name += " ";
-            }
+            name += friend.getUser_id();
+            name += " ";
         }
         viewHolder.itemView.setOnClickListener(new OnItemClickListener(i));
         viewHolder.name.setText(name);

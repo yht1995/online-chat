@@ -87,7 +87,9 @@ public class JsonSerializer {
             session.setUuid(message.getSession_uuid());
             RealmList<Friend> friends = new RealmList<>();
             for (Friend f : message.getTo_friend()) {
-                friends.add(f);
+                if (!Objects.equals(serverMidware.getUsername(), f.getUser_id())) {
+                    friends.add(f);
+                }
             }
             friends.add(message.getFrom_friend());
             session.setFriends(friends);

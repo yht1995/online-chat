@@ -39,6 +39,8 @@ public class MessageMidware {
         message.setType("msg");
         message.setContent(msg);
         message.setReceived_time(new Date());
+        session.setMessages(msg);
+        session.setUpdate_time(new Date());
         realm.commitTransaction();
         SendMessage sendMessage = new SendMessage();
         sendMessage.ip_address = new ArrayList<>();

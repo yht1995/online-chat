@@ -12,6 +12,7 @@ import cn.yaoht.onlinechat.model.Session;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +43,7 @@ public class SessionFragment extends Fragment {
         super.onStart();
         realm = Realm.getDefaultInstance();
         sessions = realm.where(Session.class).findAll();
-        sessions.sort("update_time");
+        sessions.sort("update_time", Sort.DESCENDING);
         sessionRecyclerViewAdapter = new SessionRecyclerViewAdapter(getContext(),sessions,true,true);
         realmRecyclerView.setAdapter(sessionRecyclerViewAdapter);
     }

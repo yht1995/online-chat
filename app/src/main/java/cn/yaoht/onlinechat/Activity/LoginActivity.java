@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
                 userid = edittext_userid.getText().toString();
                 password = edittext_password.getText().toString();
 
-                if (!Objects.equals(userid, settings.getString("userid", ""))) {
+                if (!Objects.equals(userid, settings.getString("userid", "")) && settings.contains("userid")) {
                     FragmentManager fm = getSupportFragmentManager();
                     ClearDBWarringDialog warringDialog = new ClearDBWarringDialog();
                     warringDialog.show(fm, "clear warring");

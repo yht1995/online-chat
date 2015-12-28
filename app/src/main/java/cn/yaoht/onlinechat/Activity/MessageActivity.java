@@ -2,6 +2,7 @@ package cn.yaoht.onlinechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,11 +12,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.midware.JsonSerializer;
 import cn.yaoht.onlinechat.midware.MessageMidware;
-import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
@@ -48,7 +49,7 @@ public class MessageActivity extends AppCompatActivity {
         }
 
         MessageRecyclerViewAdapter messageRecyclerViewAdapter = new MessageRecyclerViewAdapter(this, messages, true);
-        ListView listView = (ListView) findViewById(R.id.activity_message_list_view);
+        final ListView listView = (ListView) findViewById(R.id.activity_message_list_view);
         listView.setAdapter(messageRecyclerViewAdapter);
 
         final EditText editText = (EditText) findViewById(R.id.activity_message_edittext_message);
@@ -59,6 +60,10 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String msg = editText.getText().toString();
+                if (Pattern.matches("^\\s*$", msg)) {
+                    Snackbar.make(listView, "Do not send blank text", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 editText.setText("");
                 MessageMidware messageMidware = new MessageMidware();
                 messageMidware.SendMessage(session, msg);
@@ -80,8 +85,6 @@ public class MessageActivity extends AppCompatActivity {
         for (String friend_id : friend_list) {
             friendRealmList.add(JsonSerializer.getFriend(friend_id));
         }
-        ServerMidware serverMidware = ServerMidware.getInstance();
-        friendRealmList.add(JsonSerializer.getFriend(serverMidware.getUsername()));
         session.setFriends(friendRealmList);
         session.setMessages("");
         session.setUpdate_time(new Date());

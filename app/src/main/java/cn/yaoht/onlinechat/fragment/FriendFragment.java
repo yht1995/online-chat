@@ -124,6 +124,7 @@ public class FriendFragment extends Fragment {
             public void onSuccess() {
                 realmRecyclerView.setRefreshing(false);
                 friends = realm.where(Friend.class).findAll();
+                friends.sort("user_id");
                 friendRecyclerViewAdapter = new FriendRecyclerViewAdapter(getContext(), friends, true, true);
                 realmRecyclerView.setAdapter(friendRecyclerViewAdapter);
             }

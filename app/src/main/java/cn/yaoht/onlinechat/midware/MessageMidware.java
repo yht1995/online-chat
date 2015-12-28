@@ -57,7 +57,11 @@ public class MessageMidware {
         message.setType(type);
         message.setContent(msg);
         message.setReceived_time(new Date());
-        session.setMessages(msg);
+        if (Objects.equals(message.getType(), "msg")) {
+            session.setMessages(message.getContent());
+        } else if (Objects.equals(message.getType(), "file")) {
+            session.setMessages("[File]");
+        }
         session.setUpdate_time(new Date());
         realm.commitTransaction();
 
@@ -107,7 +111,7 @@ public class MessageMidware {
         session.setUpdate_time(new Date());
         if (Objects.equals(message.getType(), "msg")) {
             session.setMessages(message.getContent());
-        }else if (Objects.equals(message.getType(), "file")){
+        } else if (Objects.equals(message.getType(), "file")) {
             session.setMessages("[File]");
         }
         realm.commitTransaction();

@@ -1,6 +1,7 @@
 package cn.yaoht.onlinechat.midware;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
@@ -10,6 +11,10 @@ import cn.yaoht.onlinechat.model.Message;
  * Project: OnlineChat
  */
 public class RawMessage {
+
+    public static final String TYPE_MSG = "msg";
+    public static final String TYPE_FILE = "file";
+
     public String session_uuid;
     public String from_friend;
     public ArrayList<String> to_friend;
@@ -33,5 +38,12 @@ public class RawMessage {
         }
         type = message.getType();
         content = message.getContent();
+    }
+
+    public String getContentDescription(){
+       if (Objects.equals(type, TYPE_MSG)){
+           return content;
+       }
+        return "[File]";
     }
 }

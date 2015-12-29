@@ -24,6 +24,7 @@
             android:id="@+id/message_mine_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             app:cmv_arrowGravity="start"
             app:cmv_arrowMargin="3dp"
             app:cmv_arrowPosition="right"

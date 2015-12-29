@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         if (serverMidware.getUsername() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, LOGIN_REQUEST);
-        }else {
+        } else {
             try {
                 serverMidware.Login();
             } catch (Exception e) {
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.drawer, menu);
         loginMenu = menu.findItem(R.id.action_login);
+        ServerMidware serverMidware = ServerMidware.getInstance();
+        loginMenu.setIcon((serverMidware.getIs_online()) ? R.drawable.ic_person_24dp : R.drawable.ic_person_outline_24dp);
         return true;
     }
 
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             ServerMidware serverMidware = ServerMidware.getInstance();
             loginMenu.setIcon((serverMidware.getIs_online()) ? R.drawable.ic_person_24dp : R.drawable.ic_person_outline_24dp);
             if (serverMidware.getIs_online()) {
-                P2PIntentService.startActionListen(this);
+                CoreService.startActionListen(this);
             }
         }
     }

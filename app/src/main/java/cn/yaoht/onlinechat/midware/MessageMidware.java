@@ -1,7 +1,6 @@
 package cn.yaoht.onlinechat.midware;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONException;
 
@@ -13,7 +12,7 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Objects;
 
-import cn.yaoht.onlinechat.P2PIntentService;
+import cn.yaoht.onlinechat.CoreService;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
@@ -134,7 +133,7 @@ public class MessageMidware {
             }
             for (String ip : rawMessage.to_ip_list) {
                 try {
-                    Socket socket = new Socket(ip, P2PIntentService.P2P_PORT);
+                    Socket socket = new Socket(ip, CoreService.P2P_PORT);
                     PrintWriter out = new PrintWriter(
                             new BufferedWriter(new OutputStreamWriter(
                                     socket.getOutputStream())), true);

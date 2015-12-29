@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.activity.MessageActivity;
@@ -31,6 +33,7 @@ public class FriendFragment extends Fragment {
     private FriendRecyclerViewAdapter friendRecyclerViewAdapter;
     private Realm realm;
     private RealmResults<Friend> friends;
+    private Timer refresh_timer;
 
 
     public FriendFragment() {
@@ -86,19 +89,26 @@ public class FriendFragment extends Fragment {
         friends.sort("user_id");
         friendRecyclerViewAdapter = new FriendRecyclerViewAdapter(getContext(), friends, true, true);
         realmRecyclerView.setAdapter(friendRecyclerViewAdapter);
-        realmRecyclerView.setOnRefreshListener(new OnFriendsFragmentRefreshListener());
+        realmRecyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RefreshFriendOnlineState();
+            }
+        });
+
+        refresh_timer = new Timer();
+        refresh_timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                RefreshFriendOnlineState();
+            }
+        }, 0, 60 * 1000);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        RefreshFriendOnlineState();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
+    public void onPause() {
+        super.onPause();
+        refresh_timer.cancel();
     }
 
     private void RefreshFriendOnlineState() {
@@ -134,13 +144,5 @@ public class FriendFragment extends Fragment {
                 realmRecyclerView.setRefreshing(false);
             }
         });
-    }
-
-    private class OnFriendsFragmentRefreshListener implements RealmRecyclerView.OnRefreshListener {
-
-        @Override
-        public void onRefresh() {
-            RefreshFriendOnlineState();
-        }
     }
 }

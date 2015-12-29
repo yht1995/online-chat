@@ -28,18 +28,18 @@ import cn.yaoht.onlinechat.midware.Serializer;
  * <p/>
  * helper methods.
  */
-public class P2PIntentService extends IntentService {
+public class CoreService extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final int P2P_PORT = 53000;
     private static final String ACTION_LISTEN = "cn.yaoht.onlinechat.action.LISTEN";
     private static final int NOTICE_NEW_MESSAGE_NUM = 1;
 
-    public P2PIntentService() {
-        super("P2PIntentService");
+    public CoreService() {
+        super("CoreService");
     }
 
     public static void startActionListen(Context context) {
-        Intent intent = new Intent(context, P2PIntentService.class);
+        Intent intent = new Intent(context, CoreService.class);
         intent.setAction(ACTION_LISTEN);
         context.startService(intent);
     }
@@ -82,8 +82,8 @@ public class P2PIntentService extends IntentService {
     private void BuildNotification(RawMessage rawMessage) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setAutoCancel(true)
                         .setSmallIcon(R.drawable.ic_textsms_24dp)
+                        .setAutoCancel(true)
                         .setContentTitle(rawMessage.from_friend)
                         .setContentText(rawMessage.getContentDescription());
 

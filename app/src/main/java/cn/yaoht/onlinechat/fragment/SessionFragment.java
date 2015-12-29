@@ -48,9 +48,4 @@ public class SessionFragment extends Fragment {
         realmRecyclerView.setAdapter(sessionRecyclerViewAdapter);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
-    }
 }

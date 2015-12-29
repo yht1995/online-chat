@@ -17,6 +17,12 @@ import java.util.Objects;
  * Created by yaoht on 2015/12/26.
  * Project: OnlineChat
  */
+
+/**
+ * @author yaoht
+ *         消息Serializer和 Deserializer
+ *         将消息转换为发送和接受的Json格式
+ */
 public class Serializer {
 
     public static final String FIELD_UUID = "UUID";
@@ -28,6 +34,14 @@ public class Serializer {
     public static final String TYPE_MSG = "msg";
     public static final String TYPE_FILE = "file";
 
+    /**
+     * 将消息组装为Json
+     *
+     * @param message 原始消息
+     * @return 组装的Json字符串
+     * @throws JSONException
+     * @throws IOException
+     */
     public static String MessagetoJson(RawMessage message) throws JSONException, IOException {
         JSONObject json_message = new JSONObject();
         JSONArray json_array_to_friend = new JSONArray();
@@ -51,6 +65,13 @@ public class Serializer {
         return json_message.toString();
     }
 
+    /**
+     * 将文件Base64编码
+     *
+     * @param file 编码文件
+     * @return 文件的Base64编码
+     * @throws IOException
+     */
     private static String FileEncodeBase64(File file) throws IOException {
         FileInputStream stream = new FileInputStream(file);
         byte[] bytes = new byte[(int) file.length()];
@@ -59,6 +80,14 @@ public class Serializer {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
+    /**
+     * 文件Base64解码并保存
+     *
+     * @param base64   Base64编码
+     * @param filename 文件名
+     * @return 文件绝对路径
+     * @throws IOException
+     */
     private static String FileDecodeBase64(String base64, String filename) throws IOException {
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS), filename);
@@ -70,6 +99,15 @@ public class Serializer {
         stream.close();
         return file.getAbsolutePath();
     }
+
+    /**
+     * 将接收到消息解码
+     *
+     * @param str 接收到消息字符串
+     * @return 解码的消息
+     * @throws JSONException
+     * @throws IOException
+     */
 
     public static RawMessage JsontoMessage(String str) throws JSONException, IOException {
         JSONObject json = new JSONObject(str);

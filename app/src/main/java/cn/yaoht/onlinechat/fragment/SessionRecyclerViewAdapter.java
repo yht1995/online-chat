@@ -21,6 +21,10 @@ import io.realm.RealmViewHolder;
  * Created by yaoht on 2015/12/26.
  * Project: OnlineChat
  */
+
+/**
+ * 会话列表适配器
+ */
 public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Session,
         SessionRecyclerViewAdapter.ViewHolder> {
 

@@ -23,13 +23,17 @@ import cn.yaoht.onlinechat.midware.Serializer;
 
 
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * helper methods.
+ * @author yaoht
+ * @see android.app.IntentService
+ *
+ * 服务：核心服务
+ * TcpServer 接收消息
  */
 public class CoreService extends IntentService {
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+
+    /**
+     * P2P端口
+     */
     public static final int P2P_PORT = 53000;
     private static final String ACTION_LISTEN = "cn.yaoht.onlinechat.action.LISTEN";
     private static final int NOTICE_NEW_MESSAGE_NUM = 1;
@@ -72,6 +76,10 @@ public class CoreService extends IntentService {
         }.run();
     }
 
+    /**
+     * 接收消息
+     * @param rawMessage 原始消息
+     */
     private void OnNewMessageArrived(RawMessage rawMessage) {
         MessageMidware messageMidware = new MessageMidware();
         messageMidware.ReceiveMessage(rawMessage);
@@ -79,6 +87,10 @@ public class CoreService extends IntentService {
         BuildNotification(rawMessage);
     }
 
+    /**
+     * 显示系统通知
+     * @param rawMessage 消息
+     */
     private void BuildNotification(RawMessage rawMessage) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -101,6 +113,11 @@ public class CoreService extends IntentService {
     }
 
 
+    /**
+     * @author yaoht
+     * 异步任务
+     * 接收消息
+     */
     private class ListenAsync extends AsyncTask<Socket, Void, RawMessage> {
 
         @Override

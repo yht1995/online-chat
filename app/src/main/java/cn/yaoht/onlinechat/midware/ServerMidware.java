@@ -17,6 +17,15 @@ import cn.yaoht.onlinechat.model.Friend;
  * Created by yaoht on 2015/12/10.
  * Project: OnlineChat
  */
+
+/**
+ * @author yaoht
+ *         <p>
+ *         服务器通讯中间件
+ *         <p>
+ *         服务器通信中间件，包括登录登出和在线状态查询。以单例存在，在Application 创建时创建。
+ *         </p>
+ */
 public class ServerMidware {
 
     private static final String LOGIN_SUCCESSFUL = "lol";
@@ -84,6 +93,12 @@ public class ServerMidware {
         return is_online;
     }
 
+    /**
+     * 向服务器发送指令
+     *
+     * @param cmd 发送的指令
+     * @return 服务器返回的信息
+     */
     private String ServerSocket(String cmd) {
         try {
             Socket socket = new Socket(ip_address, port);
@@ -104,10 +119,24 @@ public class ServerMidware {
         return "";
     }
 
+    /**
+     * @author yaoht
+     *         在线状态改变监听器
+     */
     public interface OnlineStateChangedListener {
+        /**
+         * 响应在线状态变化
+         *
+         * @param is_online 是否在线
+         */
         void ChangeOnlineState(boolean is_online);
     }
 
+    /**
+     * @author yaoht
+     * @see android.os.AsyncTask
+     * 异步任务，向服务器发出登录登出请求
+     */
     private class LoginAsync extends AsyncTask<String, Void, String> {
 
         @Override

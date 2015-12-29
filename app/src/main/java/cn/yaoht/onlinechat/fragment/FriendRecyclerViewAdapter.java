@@ -20,6 +20,10 @@ import io.realm.RealmViewHolder;
  * Created by yaoht on 2015/12/24.
  * Project: OnlineChat
  */
+
+/**
+ * 好友列表适配器
+ */
 public class FriendRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Friend,
         FriendRecyclerViewAdapter.ViewHolder> {
 

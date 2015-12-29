@@ -29,6 +29,10 @@ import me.himanshusoni.chatmessageview.ChatMessageView;
  * Created by yaoht on 2015/12/26.
  * Project: OnlineChat
  */
+
+/**
+ * 会话内容适配器
+ */
 public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implements ListAdapter {
 
     private final int MY_MESSAGE = 0, OTHER_MESSAGE = 1;
@@ -118,7 +122,7 @@ public class MessageRecyclerViewAdapter extends RealmBaseAdapter<Message> implem
             if (mime != null) {
                 intent.setDataAndType(Uri.fromFile(file), mime);
                 context.startActivity(intent);
-            }else{
+            } else {
                 Snackbar.make(view, R.string.error_cannot_open, Snackbar.LENGTH_SHORT).show();
             }
         }

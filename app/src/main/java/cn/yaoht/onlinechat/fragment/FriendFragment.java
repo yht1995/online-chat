@@ -25,7 +25,14 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * @author yaoht
+ *         A simple {@link Fragment} subclass.
+ *         好友列表
  */
 public class FriendFragment extends Fragment {
 

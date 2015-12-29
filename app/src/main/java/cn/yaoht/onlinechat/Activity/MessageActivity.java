@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.midware.MessageMidware;
-import cn.yaoht.onlinechat.midware.RawMessage;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
@@ -25,6 +24,14 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
+/**
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * 显示会话内容
+ */
 public class MessageActivity extends AppCompatActivity {
 
     public final static String SESSION_UUID = "cn.yaoht.onlinechat.SESSION_UUID";

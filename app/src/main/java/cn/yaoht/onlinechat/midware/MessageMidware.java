@@ -24,6 +24,14 @@ import io.realm.RealmResults;
  * Created by yaoht on 2015/12/27.
  * Project: OnlineChat
  */
+
+/**
+ * @author yaoht
+ *         消息中间件
+ *         <p>
+ *         处理收发消息的数据库操作
+ *         </p>
+ */
 public class MessageMidware {
 
     public static final String TYPE_MSG = "msg";
@@ -48,6 +56,13 @@ public class MessageMidware {
         return friend;
     }
 
+    /**
+     * 发送消息
+     *
+     * @param session 会话
+     * @param msg     消息内容
+     * @param type    消息类型
+     */
     public void SendMessage(Session session, String msg, String type) {
         realm.beginTransaction();
         Friend self = getFriend(serverMidware.getUsername());
@@ -59,9 +74,9 @@ public class MessageMidware {
         message.setType(type);
         message.setContent(msg);
         message.setReceived_time(new Date());
-        if (Objects.equals(message.getType(), "msg")) {
+        if (Objects.equals(message.getType(), TYPE_MSG)) {
             session.setMessages(message.getContent());
-        } else if (Objects.equals(message.getType(), "file")) {
+        } else if (Objects.equals(message.getType(), TYPE_FILE)) {
             session.setMessages("[File]");
         }
         session.setUpdate_time(new Date());
@@ -72,6 +87,12 @@ public class MessageMidware {
         new SendMessageAsync().execute(rawMessage);
     }
 
+    /**
+     * 接收消息
+     *
+     * @param rawMessage 解码的信息
+     * @return 数据库中保存的消息对象
+     */
     public Message ReceiveMessage(RawMessage rawMessage) {
         final Message message = new Message();
         message.setReceived_time(new Date());
@@ -111,9 +132,9 @@ public class MessageMidware {
             session = sessionRealmResults.first();
         }
         session.setUpdate_time(new Date());
-        if (Objects.equals(message.getType(), "msg")) {
+        if (Objects.equals(message.getType(), TYPE_MSG)) {
             session.setMessages(message.getContent());
-        } else if (Objects.equals(message.getType(), "file")) {
+        } else if (Objects.equals(message.getType(), TYPE_FILE)) {
             session.setMessages("[File]");
         }
         realm.commitTransaction();
@@ -121,6 +142,11 @@ public class MessageMidware {
         return message;
     }
 
+    /**
+     * @author yaoht
+     * @see android.os.AsyncTask
+     * 异步任务，发送信息
+     */
     private class SendMessageAsync extends AsyncTask<RawMessage, Void, Void> {
         @Override
         protected Void doInBackground(RawMessage... params) {

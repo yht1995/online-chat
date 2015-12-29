@@ -10,6 +10,16 @@ import android.support.v7.app.AlertDialog;
 
 import cn.yaoht.onlinechat.R;
 
+/**
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * @author yaoht
+ *         对话框
+ *         清空数据的警示对话框
+ */
 public class ClearDBWarringDialog extends DialogFragment {
 
     NoticeDialogListener mListener;

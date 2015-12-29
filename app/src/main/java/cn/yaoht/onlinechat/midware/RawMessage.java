@@ -10,6 +10,12 @@ import cn.yaoht.onlinechat.model.Message;
  * Created by yaoht on 2015/12/28.
  * Project: OnlineChat
  */
+
+/**
+ * @author yaoht
+ *         用于发送和接收的原始消息结构
+ */
+
 public class RawMessage {
 
     public static final String TYPE_MSG = "msg";
@@ -40,10 +46,15 @@ public class RawMessage {
         content = message.getContent();
     }
 
-    public String getContentDescription(){
-       if (Objects.equals(type, TYPE_MSG)){
-           return content;
-       }
+    /**
+     * 获取消息内容描述
+     *
+     * @return 消息内容描述
+     */
+    public String getContentDescription() {
+        if (Objects.equals(type, TYPE_MSG)) {
+            return content;
+        }
         return "[File]";
     }
 }

@@ -19,6 +19,17 @@ import cn.yaoht.onlinechat.midware.ServerMidware;
 import cn.yaoht.onlinechat.model.Friend;
 import io.realm.Realm;
 
+
+/**
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * @author yaoht
+ *         对话框
+ *         添加好友
+ */
 public class AddFriendDialog extends DialogFragment {
 
     private Realm realm;

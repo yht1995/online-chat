@@ -11,15 +11,47 @@ import io.realm.annotations.Index;
  * Project: OnlineChat
  */
 
+/**
+ * @author yaoht
+ * @link https://realm.io/cn/docs/java/latest/#section-4
+ * <p>
+ * 数据库模型：消息
+ * RealmObject子类的getter和setter会被生成的代理类重载，添加到getter和setter的任何自定义逻辑实际上并不会被执行。
+ */
 public class Message extends RealmObject {
 
+    /**
+     * 索引
+     *
+     * @link https://realm.io/cn/docs/java/latest/#index
+     * 会话ID
+     */
     @Index
     private String session_uuid;
 
+    /**
+     * 发送方
+     */
     private Friend from_friend;
+
+    /**
+     * 接收方列表
+     */
     private RealmList<Friend> to_friend;
+
+    /**
+     * 消息类型
+     */
     private String type;
+
+    /**
+     * 消息类型
+     */
     private String content;
+
+    /**
+     * 接收时间
+     */
     private Date received_time;
 
     public Friend getFrom_friend() {

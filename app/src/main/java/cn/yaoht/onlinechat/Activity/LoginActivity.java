@@ -19,11 +19,19 @@ import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;
 import io.realm.Realm;
 
+/**
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * 登录
+ */
 public class LoginActivity extends AppCompatActivity implements ClearDBWarringDialog.NoticeDialogListener {
 
-    static final String PREFS_NAME = "SETTING";
     public static final String SETTING_USERID = "userid";
     public static final String SETTING_PASSWORD = "password";
+    static final String PREFS_NAME = "SETTING";
     private ServerMidware serverMidware;
     private SharedPreferences settings;
     private String userid;
@@ -110,4 +118,3 @@ public class LoginActivity extends AppCompatActivity implements ClearDBWarringDi
 
 
 }
-

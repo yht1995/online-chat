@@ -15,7 +15,14 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by yaoht on 2015/12/27.
+ * Project: OnlineChat
+ */
+
+/**
+ * @author yaoht
+ *         A simple {@link Fragment} subclass.
+ *         会话列表
  */
 public class SessionFragment extends Fragment {
 

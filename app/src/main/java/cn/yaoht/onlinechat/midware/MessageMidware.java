@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Objects;
 
-import cn.yaoht.onlinechat.CoreService;
+import cn.yaoht.onlinechat.backend.CoreService;
 import cn.yaoht.onlinechat.model.Friend;
 import cn.yaoht.onlinechat.model.Message;
 import cn.yaoht.onlinechat.model.Session;

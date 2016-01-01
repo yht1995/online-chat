@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
         </activity>
 
         <service
-            android:name=".CoreService"
+            android:name=".backend.CoreService"
             android:exported="false" />
 
         <activity android:name=".activity.LoginActivity" />

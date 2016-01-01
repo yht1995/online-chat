@@ -1,4 +1,4 @@
-package cn.yaoht.onlinechat;
+package cn.yaoht.onlinechat.backend;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import cn.yaoht.onlinechat.R;
 import cn.yaoht.onlinechat.activity.MessageActivity;
 import cn.yaoht.onlinechat.midware.MessageMidware;
 import cn.yaoht.onlinechat.midware.RawMessage;

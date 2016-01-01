@@ -1,17 +1,14 @@
 package cn.yaoht.onlinechat.midware;
 
-import android.os.Environment;
-import android.util.Base64;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
+
+import cn.yaoht.onlinechat.backend.FileBackend;
 
 /**
  * Created by yaoht on 2015/12/26.
@@ -58,46 +55,11 @@ public class Serializer {
             json_message.put(FIELD_CONTENT, message.content);
         } else if (Objects.equals(message.type, TYPE_FILE)) {
             File file = new File(message.content);
-            String encodedBase64 = FileEncodeBase64(file);
+            String encodedBase64 = FileBackend.FileEncodeBase64(file);
             json_message.put(FIELD_NAME, file.getName());
             json_message.put(FIELD_CONTENT, encodedBase64);
         }
         return json_message.toString();
-    }
-
-    /**
-     * 将文件Base64编码
-     *
-     * @param file 编码文件
-     * @return 文件的Base64编码
-     * @throws IOException
-     */
-    private static String FileEncodeBase64(File file) throws IOException {
-        FileInputStream stream = new FileInputStream(file);
-        byte[] bytes = new byte[(int) file.length()];
-        stream.read(bytes);
-        stream.close();
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
-    }
-
-    /**
-     * 文件Base64解码并保存
-     *
-     * @param base64   Base64编码
-     * @param filename 文件名
-     * @return 文件绝对路径
-     * @throws IOException
-     */
-    private static String FileDecodeBase64(String base64, String filename) throws IOException {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS), filename);
-
-        FileOutputStream stream = new FileOutputStream(file);
-        byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
-        stream.write(bytes);
-        stream.flush();
-        stream.close();
-        return file.getAbsolutePath();
     }
 
     /**
@@ -126,7 +88,7 @@ public class Serializer {
         if (Objects.equals(rawMessage.type, TYPE_MSG)) {
             rawMessage.content = json.getString(FIELD_CONTENT);
         } else if (Objects.equals(rawMessage.type, TYPE_FILE)) {
-            rawMessage.content = FileDecodeBase64(json.getString(FIELD_CONTENT), json.getString(FIELD_NAME));
+            rawMessage.content = FileBackend.FileDecodeBase64(json.getString(FIELD_CONTENT), json.getString(FIELD_NAME));
         }
         return rawMessage;
     }

@@ -1,4 +1,4 @@
-package cn.yaoht.onlinechat;
+package cn.yaoht.onlinechat.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import cn.yaoht.onlinechat.activity.LoginActivity;
+import cn.yaoht.onlinechat.R;
+import cn.yaoht.onlinechat.backend.CoreService;
 import cn.yaoht.onlinechat.fragment.FriendFragment;
 import cn.yaoht.onlinechat.fragment.SessionFragment;
 import cn.yaoht.onlinechat.midware.ServerMidware;

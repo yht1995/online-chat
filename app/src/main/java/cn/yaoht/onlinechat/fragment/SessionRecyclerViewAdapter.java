@@ -48,7 +48,7 @@ public class SessionRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<Se
         }
         viewHolder.itemView.setOnClickListener(new OnItemClickListener(i));
         viewHolder.name.setText(name);
-        if (session.getFriends().size() > 2) {
+        if (session.getFriends().size() >= 2) {
             viewHolder.avatar.setImageResource(R.drawable.ic_group_24dp);
         } else {
             viewHolder.avatar.setImageResource(R.drawable.ic_textsms_24dp);

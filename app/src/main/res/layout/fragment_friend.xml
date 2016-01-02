@@ -34,4 +34,5 @@
         app:layout_anchor="@id/fragment_friend_realm_recycler_view"
         app:layout_anchorGravity="bottom|right|end" />
 
+
 </FrameLayout>
